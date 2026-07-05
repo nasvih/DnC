@@ -1,0 +1,300 @@
+Here is a complete, responsive, single-page web implementation of the D&C Dine and Celebrate menu. It features an elegant dark and gold theme to match the restaurant's aesthetic, a mobile-friendly grid layout, and a functional JavaScript category filter to navigate the extensive menu smoothly.
+Save the code below into an index.html file and open it in any web browser.
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&C Dine and Celebrate - Menu</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --primary-color: #d4af37; /* Gold accent */
+            --text-main: #f4f4f4;
+            --text-muted: #a0a0a0;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background-color: #0a0a0a;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            letter-spacing: 2px;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .contact-info {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 2rem 1rem;
+            background-color: var(--bg-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #333;
+        }
+
+        .filter-btn {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: #000;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-section {
+            margin-bottom: 3rem;
+        }
+
+        .category-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            border-bottom: 1px solid #333;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .menu-item {
+            background-color: var(--surface-color);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.2s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .item-price {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: #0a0a0a;
+            color: var(--text-muted);
+            border-top: 1px solid #333;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 2.5rem; }
+            .menu-grid { grid-template-columns: 1fr; }
+            main { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>D&C</h1>
+        <p>Dine and Celebrate Restaurant</p>
+        <div class="contact-info">
+            Kalpetta Bye Pass Road, Wayanad | +91 62359 25000 / 26000 <br>
+            <small>GST Applicable on all items</small> 
+        </div>
+    </header>
+
+    <nav id="filters">
+        </nav>
+
+    <main id="menu-container">
+        </main>
+
+    <footer>
+        <p>&copy; 2026 D&C Dine and Celebrate. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Comprehensive data extraction from provided document
+        const menuData = [
+            [span_2](start_span)// Breakfast[span_2](end_span)
+            { category: "Breakfast", name: "Poori", price: "₹20" },
+            { category: "Breakfast", name: "Puttu", price: "₹15" },
+            { category: "Breakfast", name: "Thattu Dosa", price: "₹15" },
+            { category: "Breakfast", name: "Iddly", price: "₹15" },
+            { category: "Breakfast", name: "Appam", price: "₹15" },
+            { category: "Breakfast", name: "Masala Dosa", price: "₹90" },
+            { category: "Breakfast", name: "Ghee Roast", price: "₹70" },
+            
+            [span_3](start_span)// Beverages[span_3](end_span)
+            { category: "Beverages", name: "Black Tea / Coffee", price: "₹12 / ₹15" },
+            { category: "Beverages", name: "Milk / Mint Tea", price: "₹20" },
+            { category: "Beverages", name: "Bru Coffee", price: "₹25" },
+            { category: "Beverages", name: "Horlicks / Boost", price: "₹60 / ₹40" },
+
+            [span_4](start_span)[span_5](start_span)// Bread Items[span_4](end_span)[span_5](end_span)
+            { category: "Bread Items", name: "Kerala Parotta", price: "₹18" },
+            { category: "Bread Items", name: "Chappathi", price: "₹15" },
+            { category: "Bread Items", name: "Plain / Butter Nan", price: "₹30 / ₹40" },
+            { category: "Bread Items", name: "Garlic / Butter Kulcha", price: "₹50 / ₹60" },
+
+            [span_6](start_span)// Lunch & Dinner (Biriyani & Mandhi)[span_6](end_span)
+            { category: "Lunch & Dinner", name: "Chicken Dum Biriyani (Full/Half)", price: "₹220 / ₹150" },
+            { category: "Lunch & Dinner", name: "Beef Biriyani (Full/Half)", price: "₹220 / ₹170" },
+            { category: "Lunch & Dinner", name: "Thali Meals", price: "₹260" },
+            { category: "Lunch & Dinner", name: "Kuzhi Mandhi (Full/Half/Qtr)", price: "₹780 / ₹410 / ₹180" },
+            { category: "Lunch & Dinner", name: "Alfham Mandhi (Full/Half/Qtr)", price: "₹980 / ₹520 / ₹230" },
+
+            [span_7](start_span)[span_8](start_span)// Charcoal & Starters[span_7](end_span)[span_8](end_span)
+            { category: "Charcoal & Starters", name: "Normal Alfaham (Full/Half/Qtr)", price: "₹590 / ₹310 / ₹170" },
+            { category: "Charcoal & Starters", name: "Peri Peri Alfaham (Full/Half/Qtr)", price: "₹670 / ₹360 / ₹190" },
+            { category: "Charcoal & Starters", name: "Chicken Tikka (6 PC)", price: "₹310" },
+            { category: "Charcoal & Starters", name: "Chicken 65", price: "₹270" },
+            { category: "Charcoal & Starters", name: "Beef Dry Fry", price: "₹220" },
+
+            [span_9](start_span)// Chinese[span_9](end_span)
+            { category: "Chinese", name: "Veg Fried Rice / Noodles", price: "₹170 / ₹150" },
+            { category: "Chinese", name: "Chicken Fried Rice / Noodles", price: "₹210 / ₹220" },
+            { category: "Chinese", name: "Mixed Schezwan Fried Rice", price: "₹280" },
+
+            [span_10](start_span)[span_11](start_span)[span_12](start_span)[span_13](start_span)[span_14](start_span)[span_15](start_span)[span_16](start_span)// Drinks & Desserts[span_10](end_span)[span_11](end_span)[span_12](end_span)[span_13](end_span)[span_14](end_span)[span_15](end_span)[span_16](end_span)
+            { category: "Drinks & Desserts", name: "Mint / Ginger Lime", price: "₹40" },
+            { category: "Drinks & Desserts", name: "Virgin / Watermelon Mojito", price: "₹110 / ₹120" },
+            { category: "Drinks & Desserts", name: "Mango / Avacado Shake", price: "₹120" },
+            { category: "Drinks & Desserts", name: "Oreo / KitKat Dream Shake", price: "₹110 / ₹120" },
+            { category: "Drinks & Desserts", name: "Cold Coffee Normal / Choco", price: "₹120 / ₹130" },
+            { category: "Drinks & Desserts", name: "Classic Bubble Tea", price: "₹130" },
+            { category: "Drinks & Desserts", name: "Regular / Royal Falooda", price: "₹120 / ₹140" },
+            
+            [span_17](start_span)[span_18](start_span)[span_19](start_span)// Seafood Specials[span_17](end_span)[span_18](end_span)[span_19](end_span)
+            { category: "Seafood & Specials", name: "Fish Mango Curry", price: "As per size" },
+            { category: "Seafood & Specials", name: "Crab Roast / Pepper", price: "As per size" },
+            { category: "Seafood & Specials", name: "Prawn Kanthari (Pacha)", price: "As per size" },
+            { category: "Seafood & Specials", name: "Chatti Choru", price: "₹260" },
+            { category: "Seafood & Specials", name: "Samudra Kaattu (Mixed Seafood)", price: "₹1300" }
+        ];
+
+        // Extract unique categories
+        const categories = ["All", ...new Set(menuData.map(item => item.category))];
+
+        const filterContainer = document.getElementById('filters');
+        const menuContainer = document.getElementById('menu-container');
+
+        // Render Filter Buttons
+        categories.forEach(cat => {
+            const btn = document.createElement('button');
+            btn.className = `filter-btn ${cat === 'All' ? 'active' : ''}`;
+            btn.textContent = cat;
+            btn.onclick = () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderMenu(cat);
+            };
+            filterContainer.appendChild(btn);
+        });
+
+        // Render Menu Items
+        function renderMenu(filterCategory) {
+            menuContainer.innerHTML = '';
+            
+            const catsToRender = filterCategory === 'All' 
+                ? categories.filter(c => c !== 'All') 
+                : [filterCategory];
+
+            catsToRender.forEach(cat => {
+                const items = menuData.filter(item => item.category === cat);
+                if (items.length === 0) return;
+
+                const section = document.createElement('div');
+                section.className = 'category-section';
+
+                const title = document.createElement('h2');
+                title.className = 'category-title';
+                title.textContent = cat;
+                section.appendChild(title);
+
+                const grid = document.createElement('div');
+                grid.className = 'menu-grid';
+
+                items.forEach(item => {
+                    const menuItem = document.createElement('div');
+                    menuItem.className = 'menu-item';
+                    menuItem.innerHTML = `
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-price">${item.price}</div>
+                    `;
+                    grid.appendChild(menuItem);
+                });
+
+                section.appendChild(grid);
+                menuContainer.appendChild(section);
+            });
+        }
+
+        // Initial render
+        renderMenu('All');
+    </script>
+</body>
+</html>
+
+```
