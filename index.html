@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,17 +8,13 @@
         :root {
             --bg-color: #121212;
             --surface-color: #1e1e1e;
-            --primary-color: #d4af37; /* Gold accent */
+            --primary-color: #d4af37; /* Elegant Gold */
             --text-main: #f4f4f4;
             --text-muted: #a0a0a0;
             --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-color);
@@ -30,7 +25,7 @@
 
         header {
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 3rem 1rem 2rem;
             background-color: #0a0a0a;
             border-bottom: 2px solid var(--primary-color);
         }
@@ -50,50 +45,66 @@
         }
 
         .contact-info {
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             font-size: 0.9rem;
             color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
+        /* Sticky, Scrollable Navbar */
         nav {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            padding: 2rem 1rem;
-            background-color: var(--bg-color);
+            background-color: #0a0a0a;
             position: sticky;
             top: 0;
             z-index: 100;
             border-bottom: 1px solid #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
+
+        .filter-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) #333;
+        }
+
+        .filter-container::-webkit-scrollbar { height: 6px; }
+        .filter-container::-webkit-scrollbar-track { background: #333; }
+        .filter-container::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-radius: 10px; }
 
         .filter-btn {
             background-color: transparent;
             color: var(--text-main);
             border: 1px solid var(--primary-color);
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9rem;
             text-transform: uppercase;
+            white-space: nowrap;
         }
 
         .filter-btn:hover, .filter-btn.active {
             background-color: var(--primary-color);
             color: #000;
+            font-weight: bold;
         }
 
         main {
-            padding: 2rem;
+            padding: 2rem 1rem;
             max-width: 1200px;
             margin: 0 auto;
+            min-height: 60vh;
         }
 
-        .category-section {
-            margin-bottom: 3rem;
-        }
+        .category-section { margin-bottom: 3.5rem; }
 
         .category-title {
             font-size: 2rem;
@@ -102,38 +113,44 @@
             padding-bottom: 0.5rem;
             margin-bottom: 1.5rem;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1rem;
         }
 
         .menu-item {
             background-color: var(--surface-color);
-            padding: 1rem 1.5rem;
+            padding: 1.2rem;
             border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 4px solid var(--primary-color);
-            transition: transform 0.2s ease;
+            border-left: 3px solid var(--primary-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .menu-item:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
+
+        .item-info { flex: 1; padding-right: 15px; }
 
         .item-name {
             font-size: 1.1rem;
             font-weight: bold;
+            margin-bottom: 4px;
         }
 
         .item-price {
             font-size: 1.1rem;
             color: var(--primary-color);
             font-weight: bold;
+            white-space: nowrap;
         }
 
         footer {
@@ -146,8 +163,8 @@
 
         @media (max-width: 600px) {
             header h1 { font-size: 2.5rem; }
-            .menu-grid { grid-template-columns: 1fr; }
-            main { padding: 1rem; }
+            .category-title { font-size: 1.5rem; }
+            .menu-item { flex-direction: column; align-items: flex-start; gap: 8px; }
         }
     </style>
 </head>
@@ -157,13 +174,16 @@
         <h1>D&C</h1>
         <p>Dine and Celebrate Restaurant</p>
         <div class="contact-info">
-            Kalpetta Bye Pass Road, Wayanad | +91 62359 25000 / 26000 <br>
-            <small>GST Applicable on all items</small> 
+            <span>Kalpetta Bye Pass Road, Wayanad</span>
+            <span>+91 62359 25000 | +91 62359 26000</span>
+            <span style="color: var(--primary-color); margin-top: 10px;">GST Applicable on all items</span>
         </div>
     </header>
 
-    <nav id="filters">
-        </nav>
+    <nav>
+        <div class="filter-container" id="filters">
+            </div>
+    </nav>
 
     <main id="menu-container">
         </main>
@@ -173,72 +193,166 @@
     </footer>
 
     <script>
-        // Comprehensive data extraction from provided document
+        // The Complete Extracted Menu Data
         const menuData = [
-            [span_2](start_span)// Breakfast[span_2](end_span)
+            // Breakfast
             { category: "Breakfast", name: "Poori", price: "₹20" },
             { category: "Breakfast", name: "Puttu", price: "₹15" },
             { category: "Breakfast", name: "Thattu Dosa", price: "₹15" },
             { category: "Breakfast", name: "Iddly", price: "₹15" },
+            { category: "Breakfast", name: "Noolputtu", price: "₹15" },
             { category: "Breakfast", name: "Appam", price: "₹15" },
-            { category: "Breakfast", name: "Masala Dosa", price: "₹90" },
+            { category: "Breakfast", name: "Paththiri", price: "₹15" },
+            { category: "Breakfast", name: "Paratha", price: "₹18" },
+            { category: "Breakfast", name: "Oothappam", price: "₹25" },
             { category: "Breakfast", name: "Ghee Roast", price: "₹70" },
-            
-            [span_3](start_span)// Beverages[span_3](end_span)
-            { category: "Beverages", name: "Black Tea / Coffee", price: "₹12 / ₹15" },
-            { category: "Beverages", name: "Milk / Mint Tea", price: "₹20" },
-            { category: "Beverages", name: "Bru Coffee", price: "₹25" },
-            { category: "Beverages", name: "Horlicks / Boost", price: "₹60 / ₹40" },
+            { category: "Breakfast", name: "Podi Dosa", price: "₹80" },
+            { category: "Breakfast", name: "Masala Dosa", price: "₹90" },
 
-            [span_4](start_span)[span_5](start_span)// Bread Items[span_4](end_span)[span_5](end_span)
-            { category: "Bread Items", name: "Kerala Parotta", price: "₹18" },
+            // Hot Beverages
+            { category: "Hot Beverages", name: "Black Tea", price: "₹12" },
+            { category: "Hot Beverages", name: "Tea / Lime Tea", price: "₹15" },
+            { category: "Hot Beverages", name: "Milk / Mint Tea / Ginger Tea", price: "₹20" },
+            { category: "Hot Beverages", name: "Black Coffee", price: "₹20" },
+            { category: "Hot Beverages", name: "Bru Coffee", price: "₹25" },
+            { category: "Hot Beverages", name: "Boost", price: "₹40" },
+            { category: "Hot Beverages", name: "Horlicks", price: "₹60" },
+
+            // Bread Items
+            { category: "Bread Items", name: "Kerala Paratta", price: "₹18" },
             { category: "Bread Items", name: "Chappathi", price: "₹15" },
-            { category: "Bread Items", name: "Plain / Butter Nan", price: "₹30 / ₹40" },
+            { category: "Bread Items", name: "Plain Nan", price: "₹30" },
+            { category: "Bread Items", name: "Butter Nan", price: "₹40" },
+            { category: "Bread Items", name: "Rotti / Butter Rotti", price: "₹30 / ₹40" },
+            { category: "Bread Items", name: "Wheat / Nool Paratha", price: "₹20 / ₹25" },
+            { category: "Bread Items", name: "Nan Butter", price: "₹50" },
             { category: "Bread Items", name: "Garlic / Butter Kulcha", price: "₹50 / ₹60" },
+            { category: "Bread Items", name: "Paththiri / Coin Porotta", price: "₹12 / ₹15" },
 
-            [span_6](start_span)// Lunch & Dinner (Biriyani & Mandhi)[span_6](end_span)
-            { category: "Lunch & Dinner", name: "Chicken Dum Biriyani (Full/Half)", price: "₹220 / ₹150" },
-            { category: "Lunch & Dinner", name: "Beef Biriyani (Full/Half)", price: "₹220 / ₹170" },
-            { category: "Lunch & Dinner", name: "Thali Meals", price: "₹260" },
-            { category: "Lunch & Dinner", name: "Kuzhi Mandhi (Full/Half/Qtr)", price: "₹780 / ₹410 / ₹180" },
-            { category: "Lunch & Dinner", name: "Alfham Mandhi (Full/Half/Qtr)", price: "₹980 / ₹520 / ₹230" },
+            // Veg Mains & Curries
+            { category: "Veg Mains", name: "Jeera / Lemon / Curd Rice", price: "₹180 / ₹200" },
+            { category: "Veg Mains", name: "Veg / Tomato Fry", price: "₹120" },
+            { category: "Veg Mains", name: "Veg Kurma", price: "₹160" },
+            { category: "Veg Mains", name: "Dal Fry / Tadka", price: "₹180" },
+            { category: "Veg Mains", name: "Veg Kadai / Kolapuri", price: "₹180 / ₹220" },
+            { category: "Veg Mains", name: "Chilly Gobi / Gobi Manjurian", price: "₹200 / ₹160" },
+            { category: "Veg Mains", name: "Mushroom / Aloo Gobi Masala", price: "₹210 / ₹190" },
+            { category: "Veg Mains", name: "Baby Corn Manjoorian", price: "₹250" },
+            { category: "Veg Mains", name: "Dal Palak / Palak Paneer", price: "₹200 / ₹250" },
+            { category: "Veg Mains", name: "Paneer Butter Masala", price: "₹180" },
 
-            [span_7](start_span)[span_8](start_span)// Charcoal & Starters[span_7](end_span)[span_8](end_span)
-            { category: "Charcoal & Starters", name: "Normal Alfaham (Full/Half/Qtr)", price: "₹590 / ₹310 / ₹170" },
-            { category: "Charcoal & Starters", name: "Peri Peri Alfaham (Full/Half/Qtr)", price: "₹670 / ₹360 / ₹190" },
-            { category: "Charcoal & Starters", name: "Chicken Tikka (6 PC)", price: "₹310" },
-            { category: "Charcoal & Starters", name: "Chicken 65", price: "₹270" },
-            { category: "Charcoal & Starters", name: "Beef Dry Fry", price: "₹220" },
+            // Egg & Meat Gravies
+            { category: "Meat Gravies", name: "Bullseye / Omlet", price: "₹50" },
+            { category: "Meat Gravies", name: "Egg Curry / Chilly / Scrambled", price: "₹60" },
+            { category: "Meat Gravies", name: "Chicken Curry / Nadan", price: "₹160 / ₹180" },
+            { category: "Meat Gravies", name: "Kuruma / Curry Beef", price: "₹170 / ₹180" },
+            { category: "Meat Gravies", name: "Beef Roast / Dry Fry", price: "₹180 / ₹220" },
+            { category: "Meat Gravies", name: "Bellary Beef / Chilly", price: "₹230 / ₹240" },
+            { category: "Meat Gravies", name: "Mutton Curry / Stew / Kuruma", price: "₹190 / ₹360" },
+            { category: "Meat Gravies", name: "Chapps Mutton", price: "₹360" },
 
-            [span_9](start_span)// Chinese[span_9](end_span)
-            { category: "Chinese", name: "Veg Fried Rice / Noodles", price: "₹170 / ₹150" },
-            { category: "Chinese", name: "Chicken Fried Rice / Noodles", price: "₹210 / ₹220" },
-            { category: "Chinese", name: "Mixed Schezwan Fried Rice", price: "₹280" },
+            // Biriyani & Meals
+            { category: "Biriyani & Meals", name: "Chicken Dum Biriyani (Full/Half)", price: "₹220 / ₹150" },
+            { category: "Biriyani & Meals", name: "Dry Chicken Dum Biriyani (Full/Half)", price: "₹220 / ₹190" },
+            { category: "Biriyani & Meals", name: "Beef Biriyani (Full/Half)", price: "₹220 / ₹170" },
+            { category: "Biriyani & Meals", name: "Veg / Egg / Ghee Rice", price: "₹140 / ₹160 / ₹140" },
+            { category: "Biriyani & Meals", name: "Squid / Biriyani Rice", price: "₹120" },
+            { category: "Biriyani & Meals", name: "Prawns / Fish / Kada Biriyani", price: "As per size" },
+            { category: "Biriyani & Meals", name: "Thali Meals / Veg Meals", price: "₹260 / ₹130" },
+            { category: "Biriyani & Meals", name: "Normal Meals", price: "₹110" },
 
-            [span_10](start_span)[span_11](start_span)[span_12](start_span)[span_13](start_span)[span_14](start_span)[span_15](start_span)[span_16](start_span)// Drinks & Desserts[span_10](end_span)[span_11](end_span)[span_12](end_span)[span_13](end_span)[span_14](end_span)[span_15](end_span)[span_16](end_span)
-            { category: "Drinks & Desserts", name: "Mint / Ginger Lime", price: "₹40" },
-            { category: "Drinks & Desserts", name: "Virgin / Watermelon Mojito", price: "₹110 / ₹120" },
-            { category: "Drinks & Desserts", name: "Mango / Avacado Shake", price: "₹120" },
-            { category: "Drinks & Desserts", name: "Oreo / KitKat Dream Shake", price: "₹110 / ₹120" },
-            { category: "Drinks & Desserts", name: "Cold Coffee Normal / Choco", price: "₹120 / ₹130" },
-            { category: "Drinks & Desserts", name: "Classic Bubble Tea", price: "₹130" },
-            { category: "Drinks & Desserts", name: "Regular / Royal Falooda", price: "₹120 / ₹140" },
-            
-            [span_17](start_span)[span_18](start_span)[span_19](start_span)// Seafood Specials[span_17](end_span)[span_18](end_span)[span_19](end_span)
-            { category: "Seafood & Specials", name: "Fish Mango Curry", price: "As per size" },
-            { category: "Seafood & Specials", name: "Crab Roast / Pepper", price: "As per size" },
-            { category: "Seafood & Specials", name: "Prawn Kanthari (Pacha)", price: "As per size" },
-            { category: "Seafood & Specials", name: "Chatti Choru", price: "₹260" },
-            { category: "Seafood & Specials", name: "Samudra Kaattu (Mixed Seafood)", price: "₹1300" }
+            // Mandhi
+            { category: "Mandhi", name: "Kuzhi Mandhi (Full/Half/Qtr)", price: "₹780 / ₹410 / ₹180" },
+            { category: "Mandhi", name: "Alfham / Peri peri Mandhi", price: "₹980 / ₹520 / ₹230" },
+            { category: "Mandhi", name: "Honey Chilly / Pepper Mandhi", price: "₹980 / ₹520 / ₹230" },
+            { category: "Mandhi", name: "Shawayi / Mutton Mandhi", price: "₹980 / ₹520 / ₹230" },
+            { category: "Mandhi", name: "Madhuhooth Chicken", price: "₹1300" },
+            { category: "Mandhi", name: "Ribs Mandhi Beef", price: "₹980 / ₹540 / ₹280" },
+            { category: "Mandhi", name: "Fish Mandhi", price: "As per size" },
+            { category: "Mandhi", name: "Mandhi Rice", price: "₹460 / ₹240 / ₹150" },
+
+            // Charcoal & Starters
+            { category: "Charcoal & Starters", name: "Alfaham Normal", price: "₹590 (Full) / ₹310 (Half)" },
+            { category: "Charcoal & Starters", name: "Alfaham Peri Peri / Kanthari", price: "₹670 (Full) / ₹360 (Half)" },
+            { category: "Charcoal & Starters", name: "Honey Chilly / Masala Shawayi", price: "₹580 (Full) / ₹300 (Half)" },
+            { category: "Charcoal & Starters", name: "Tandoori Chicken", price: "₹580 (Full) / ₹300 (Half)" },
+            { category: "Charcoal & Starters", name: "Chicken / Lemon Chilly Tikka (6 PC)", price: "₹310" },
+            { category: "Charcoal & Starters", name: "Malai Tikka (6 PC)", price: "₹320" },
+            { category: "Charcoal & Starters", name: "Chicken 65 / Kondattam", price: "₹270 / ₹300" },
+            { category: "Charcoal & Starters", name: "Lolipop / Dragon Chicken", price: "₹260 / ₹300" },
+
+            // Chinese
+            { category: "Chinese", name: "Fried Rice Veg / Egg / Chicken", price: "₹170 / ₹190 / ₹210" },
+            { category: "Chinese", name: "Fried Rice Mixed / Schezwan Veg", price: "₹240 / ₹200" },
+            { category: "Chinese", name: "Schezwan Fried Rice Chicken", price: "₹280" },
+            { category: "Chinese", name: "Noodles Veg / Egg / Chicken", price: "₹150 / ₹200 / ₹220" },
+            { category: "Chinese", name: "Noodles Mixed", price: "₹230" },
+            { category: "Chinese", name: "Schezwan Noodles Veg / Egg", price: "₹220 / ₹240" },
+
+            // Soups & Salads
+            { category: "Soups & Salads", name: "Green Salad / Pineapple Chat", price: "₹120 / ₹130" },
+            { category: "Soups & Salads", name: "Russion Salad Veg / Chicken", price: "₹140 / ₹170" },
+            { category: "Soups & Salads", name: "Sweet Corn / Clear Soup (Veg)", price: "₹110" },
+            { category: "Soups & Salads", name: "Sweet Corn / Clear Soup (Non-Veg)", price: "₹140 / ₹150" },
+            { category: "Soups & Salads", name: "Hot & Sour Veg / Non-Veg", price: "₹110 / ₹150" },
+            { category: "Soups & Salads", name: "Cream Tomato / Manchow", price: "₹120 / ₹160" },
+
+            // Seafood
+            { category: "Seafood & Platters", name: "Chatti Choru", price: "₹260" },
+            { category: "Seafood & Platters", name: "Fish Mango / Marigold Curry", price: "As per size" },
+            { category: "Seafood & Platters", name: "Kuttanadan / Shrimp Curry", price: "As per size" },
+            { category: "Seafood & Platters", name: "Fish Molly / Masala / Pollichathu", price: "As per size" },
+            { category: "Seafood & Platters", name: "Crab Roast / Pepper / Kanthari", price: "As per size" },
+            { category: "Seafood & Platters", name: "Prawns Mango Curry / Golden Fry", price: "₹360 / ₹340" },
+            { category: "Seafood & Platters", name: "Koonthal Roast / Pepper", price: "As per size" },
+            { category: "Seafood & Platters", name: "Samudra Kaattu (Mixed Platter)", price: "₹1300" },
+            { category: "Seafood & Platters", name: "Alfam / Kabab Platter", price: "₹710 / ₹960" },
+
+            // Snacks & Specials
+            { category: "Snacks & Specials", name: "Beef / Chicken Cutlet", price: "₹25" },
+            { category: "Snacks & Specials", name: "Veg Samoosa", price: "₹15" },
+            { category: "Snacks & Specials", name: "Unnakaya / Poricha Pathiri", price: "₹20" },
+            { category: "Snacks & Specials", name: "Wayanadan Special Kappa Puzhukku", price: "₹140" },
+
+            // Cold Drinks & Mojitos
+            { category: "Cold Drinks", name: "Fresh / Lime Soda", price: "₹30" },
+            { category: "Cold Drinks", name: "Mint / Ginger / Grape Lime", price: "₹40" },
+            { category: "Cold Drinks", name: "Pineapple Lime", price: "₹50" },
+            { category: "Cold Drinks", name: "Virgin / Blue Mojito", price: "₹110 / ₹120" },
+            { category: "Cold Drinks", name: "Watermelon / Passionfruit Mojito", price: "₹120" },
+            { category: "Cold Drinks", name: "Spicy Orange / Mix Mojito", price: "₹150" },
+            { category: "Cold Drinks", name: "Cold Coffee Normal / Choco", price: "₹120 / ₹130" },
+            { category: "Cold Drinks", name: "Caramel / Irish / Berry Cold Coffee", price: "₹140 / ₹150 / ₹150" },
+
+            // Shakes & Juices
+            { category: "Shakes & Juices", name: "Dates / Cashew Shake", price: "₹140" },
+            { category: "Shakes & Juices", name: "Badam / Figg and Honey Shake", price: "₹150" },
+            { category: "Shakes & Juices", name: "Mango / Avacado / Shamam Shake", price: "₹120" },
+            { category: "Shakes & Juices", name: "Tender Coconut Shake", price: "₹130" },
+            { category: "Shakes & Juices", name: "Oreo / KitKat Dream Shake", price: "₹110 / ₹120" },
+            { category: "Shakes & Juices", name: "Brownie / Lotus Biscoff Shake", price: "₹130 / ₹140" },
+            { category: "Shakes & Juices", name: "ABC / Eye Cleaner / Liver Care Juice", price: "₹120" },
+            { category: "Shakes & Juices", name: "Orange / Pineapple / Musambi Juice", price: "₹80" },
+            { category: "Shakes & Juices", name: "Watermelon / Grape / Pappaya Juice", price: "₹70" },
+
+            // Desserts & Falooda
+            { category: "Desserts & Bubble Tea", name: "Classic / Caramel Bubble Tea", price: "₹130" },
+            { category: "Desserts & Bubble Tea", name: "Chocolate / Strawberry Bubble Tea", price: "₹150" },
+            { category: "Desserts & Bubble Tea", name: "Regular / Royal Falooda", price: "₹120 / ₹140" },
+            { category: "Desserts & Bubble Tea", name: "Mango Falooda", price: "₹160" },
+            { category: "Desserts & Bubble Tea", name: "Arabian / Ittalian / Cake Falooda", price: "₹180" },
+            { category: "Desserts & Bubble Tea", name: "Pistachio Kunafa Falooda", price: "₹230" },
+            { category: "Desserts & Bubble Tea", name: "D&C Special Drink", price: "₹150" },
+            { category: "Desserts & Bubble Tea", name: "Fruitslad Ice Creams / Cut Fruits", price: "₹160" }
         ];
 
-        // Extract unique categories
+        // Ensure unique categories
         const categories = ["All", ...new Set(menuData.map(item => item.category))];
 
         const filterContainer = document.getElementById('filters');
         const menuContainer = document.getElementById('menu-container');
 
-        // Render Filter Buttons
+        // Create Filter Navbar
         categories.forEach(cat => {
             const btn = document.createElement('button');
             btn.className = `filter-btn ${cat === 'All' ? 'active' : ''}`;
@@ -246,15 +360,18 @@
             btn.onclick = () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
+                // Scroll button into view for mobile users
+                btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
                 renderMenu(cat);
             };
             filterContainer.appendChild(btn);
         });
 
-        // Render Menu Items
+        // Render the Grid Menu
         function renderMenu(filterCategory) {
             menuContainer.innerHTML = '';
             
+            // If "All", map through all categories avoiding the "All" string itself
             const catsToRender = filterCategory === 'All' 
                 ? categories.filter(c => c !== 'All') 
                 : [filterCategory];
@@ -278,7 +395,9 @@
                     const menuItem = document.createElement('div');
                     menuItem.className = 'menu-item';
                     menuItem.innerHTML = `
-                        <div class="item-name">${item.name}</div>
+                        <div class="item-info">
+                            <div class="item-name">${item.name}</div>
+                        </div>
                         <div class="item-price">${item.price}</div>
                     `;
                     grid.appendChild(menuItem);
@@ -289,9 +408,8 @@
             });
         }
 
-        // Initial render
+        // Initialize display
         renderMenu('All');
     </script>
 </body>
 </html>
-
